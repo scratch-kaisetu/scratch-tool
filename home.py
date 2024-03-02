@@ -15,6 +15,10 @@ styles = {'material-icons':{'color': 'red'},
           'close-button':{'':''},
           'link':{'':''}}
 
+link1 = '[scratch(スクラッチ)解説](https://www.youtube.com/@scratch_kaisetu)'
+link2 = '[@rennto_ko](https://scratch.mit.edu/users/rennto_ko/)'
+st.markdown(f'By.{link1}、{link2}', unsafe_allow_html=True)
+
 custom_notification_box(icon='○', textDisplay='プロジェクトの公開の規約', externalLink='公開規約(github)', url='https://github.com/scratch-kaisetu/scratch-tool/tree/master#readme', styles=styles, key="foo")
 
 st.title("無駄tool")
