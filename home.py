@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_custom_notification_box import custom_notification_box
 import secrets
 import string
 
@@ -9,12 +10,19 @@ def get_random_password_string(length):
 
 st.set_page_config("むだtool", "📘")
 
+styles = {'material-icons':{'color': 'red'},
+          'notification-text': {'':''},
+          'close-button':{'':''},
+          'link':{'':''}}
+
+custom_notification_box(icon='○', textDisplay='プロジェクトの公開の規約', externalLink='公開規約(github)', url='https://github.com/scratch-kaisetu/scratch-tool/tree/master#readme', styles=styles, key="foo")
+
 st.title("無駄tool")
 
 st.header("大量ブロック")
-number = st.number_input('ブロックの数',min_value=2)
+number = st.number_input('ブロックの数',min_value=2 ,help="生成するブロックの数です。数字が大きいと生成時間が伸びます。")
 gazou_seisei = st.container(border=True)
-if gazou_seisei.button('画像生成'):
+if gazou_seisei.button('画像生成' ,help="ブロックの画像を生成できます。"):
     blocks1 = ""
     blocks2 = ""
     my_bar = gazou_seisei.progress(0, text="生成中...")
@@ -28,10 +36,10 @@ if gazou_seisei.button('画像生成'):
         my_bar.progress(round(j / number * 100), text=f"生成中...{j+1}/{number}")
     my_bar.empty()
     
-    gazou_seisei.link_button("アクセス","https://scratchblocks.github.io/#?style=scratch3&lang=ja&script="+blocks1+blocks2)
+    gazou_seisei.link_button("アクセス","https://scratchblocks.github.io/#?style=scratch3&lang=ja&script="+blocks1+blocks2 ,help="画像のリンクです。")
 
 json_seisei = st.container(border=True)
-if json_seisei.button('ファイル生成'):
+if json_seisei.button('ファイル生成' ,help="sb3用のjsonファイルを生成します。"):
     file_json = '{"targets":[{"isStage":true,"name":"Stage","variables":{"`jEk@4|i[#Fk?(8x)AV.-my variable":["変数",0]},"lists":{},"broadcasts":{},"blocks":{},"comments":{},"currentCostume":0,"costumes":[{"name":"This work by @rennto_ko in scratch is marked with CC0 1.0 Universal ","bitmapResolution":1,"dataFormat":"svg","assetId":"539c5b7c5c2d414424ff31f4c45964ea","md5ext":"539c5b7c5c2d414424ff31f4c45964ea.svg","rotationCenterX":231.75561900976138,"rotationCenterY":-148.0503420203301}],"sounds":[{"name":"project-audio","assetId":"b7f137b6da798d2a15443689546abb06","dataFormat":"mp3","rate":48000,"sampleCount":907800,"md5ext":"b7f137b6da798d2a15443689546abb06.mp3"}],"volume":100,"layerOrder":0,"tempo":60,"videoTransparency":50,"videoState":"on","textToSpeechLanguage":null},{"isStage":false,"name":"<>ではないx' + str(number) + '","variables":{},"lists":{},"broadcasts":{},"blocks":{"'
     data_randam_mae = get_random_password_string(20)
     file_json += data_randam_mae + '":{"opcode":"operator_not","next":null,"parent":null,"inputs":{"OPERAND":[2,"'
@@ -49,27 +57,11 @@ if json_seisei.button('ファイル生成'):
     
     file_json += '"' + data_randam2 + '":{"opcode":"operator_not","next":null,"parent":"' + data_randam_mae + '","inputs":{},"fields":{},"shadow":false,"topLevel":false}},"comments":{},"currentCostume":0,"costumes":[{"name":"<>ではない","bitmapResolution":1,"dataFormat":"svg","assetId":"d81886cf2d139ff03f4d6b5a2916c2f4","md5ext":"d81886cf2d139ff03f4d6b5a2916c2f4.svg","rotationCenterX":117.25710678118651,"rotationCenterY":32.00000000000003}],"sounds":[],"volume":100,"layerOrder":1,"visible":true,"x":0,"y":0,"size":100,"direction":90,"draggable":false,"rotationStyle":"all around"}],"monitors":[],"extensions":[],"meta":{"semver":"3.0.0","vm":"2.3.0","agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"}}'
 
-    json_seisei.download_button('jsonダウンロード', file_json ,file_name='project.json')
+    json_seisei.download_button('jsonダウンロード', file_json ,file_name='project.json' ,help="生成したjsonファイルです。")
     
-    json_seisei.link_button("他のファイルをダウンロード","https://www.dropbox.com/scl/fo/szcwloi7suuuzvzlei3i8/h?rlkey=69vis3br8f1qr4yctg3pvln3j&dl=0")
+    json_seisei.link_button("他のファイルをダウンロード","https://www.dropbox.com/scl/fo/szcwloi7suuuzvzlei3i8/h?rlkey=69vis3br8f1qr4yctg3pvln3j&dl=0" ,help="このリンクから必要なファイルをダウンロードできます。")
 
+    video_file = open('help.mp4', 'rb')
+    video_bytes = video_file.read()
 
-
-
-
-
-
-# ブロック::motion
-# ブロック::looks
-# ブロック::sound
-# ブロック::events
-# ブロック::control
-# ブロック::sensing
-# ブロック::operators
-# ブロック::variables
-# ブロック::list
-# ブロック::custom
-# ブロック::custom-arg
-# ブロック::grey
-# ブロック::undefined
-# ブロック::#ace600
+    json_seisei.video(video_bytes)
